@@ -3,7 +3,7 @@ import session from "express-session";
 import bodyParser from "body-parser";
 import path from "path";
 import {fileURLToPath} from "url";
-import {db,initDB} from "./models/db.js";
+import { getDB, initDB } from "./models/db.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
