@@ -6,6 +6,7 @@ import {fileURLToPath} from "url";
 import {db,initDB} from "./models/db.js";
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use(bodyParser.urlencoded({extended:true}));
@@ -21,19 +22,19 @@ const requireLogin = (req, res, next) => {
 
 app.post("/login",(req,res) => {
     const {password}=req.body;
-        if (password === process.env.ADMIN_PASSWORD) {
+        if (password === process.env.ADMIN_PASS) {
             req.session.loggedIn=true;
             return res.redirect("/admin.html");
         }
         res.send("Incorrect Password");
 });
 
-app.post("/logout", (res,req) => {
+app.post("/logout", (req,res) => {
     req.session.destroy(() => res.redirect("/admin-login.html"));
 });
 
 //crud
-app.get("api/resources", async (req,res) => {
+app.get("/api/resources", async (req,res) => {
     const rows = await db.all("SELECT * FROM resources ORDER BY id DESC");
     res.json(rows);
 });
