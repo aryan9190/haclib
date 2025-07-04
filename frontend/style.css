@@ -82,3 +82,79 @@ nav a {
     border: 1px solid #ccc;
     border-radius: 6px;
 }
+
+#suggest {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin: 2rem 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#suggest h2 {
+    margin-bottom: 1rem;
+}
+
+#suggest form input,
+#suggest form textarea,
+#suggest form select {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0 1rem 0;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+#suggest form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+#suggest form button:hover {
+    background-color: #0056b3;
+}
+
+#pending-suggestions {
+    margin-top: 2rem;
+}
+
+#pending-suggestions h2 {
+    margin-bottom: 1rem;
+}
+
+#suggestions-container > div {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+}
+
+#suggestions-container form {
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+#suggestions-container button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+}
+
+#suggestions-container form:nth-child(2) button {
+    background-color: #dc3545;
+}
+
+#suggestions-container button:hover {
+    opacity: 0.9;
+}
