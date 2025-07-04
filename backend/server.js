@@ -35,17 +35,20 @@ app.post("/logout", (req,res) => {
 
 //crud
 app.get("/api/resources", async (req,res) => {
+    const db = getDB();
     const rows = await db.all("SELECT * FROM resources ORDER BY id DESC");
     res.json(rows);
 });
 
 app.post("/api/resources", requireLogin, async (req, res) => {
+    const db = getDB();
     const {title, type, author, tags, link, notes, status}=req.body;
     await db.run("INSERT INTO resources (title, type, author, tags, link, notes, status) VALUES (?,?,?,?,?,?,?)", [title, type, author, tags, link, notes, status]);
     res.redirect("/admin.html")
 });
 
 app.post("/api/resources/:id/delete", requireLogin, async(req,res) => {
+    const db = getDB();
     const {id} = req.params;
     await db.run("DELETE FROM resources WHERE id = ?", [id]);
     res.redirect("/admin.html");
