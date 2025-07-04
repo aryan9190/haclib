@@ -9,4 +9,6 @@ export async function initDB() {
         id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, type TEXT, author TEXT, tags TEXT, link TEXT, notes TEXT, status TEXT)`);
 }
 
-export {db};
+export function getDB() {
+    return db;
+}
