@@ -54,6 +54,39 @@ app.post("/api/resources/:id/delete", requireLogin, async(req,res) => {
     res.redirect("/admin.html");
 });
 
+//suggestions
+app.post("/api/suggestions", async (req, res) => {
+    const db = getDB();
+    const { title, type, author, tags, link, notes, status } = req.body;
+    await db.run("INSERT INTO suggestions (title, type, author, tags, link, notes, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [title, type, author, tags, link, notes, status]);
+    res.send("Suggestion submitted!");
+});
+
+app.get("/api/suggestions", requireLogin, async (req, res) => {
+    const db = getDB();
+    const suggestions = await db.all("SELECT * FROM suggestions ORDER BY id DESC");
+    res.json(suggestions);
+});
+
+app.post("/api/suggestions/:id/approve", requireLogin, async (req, res) => {
+    const db = getDB();
+    const { id } = req.params;
+    const suggestion = await db.get("SELECT * FROM suggestions WHERE id = ?", [id]);
+    if (!suggestion) return res.status(404).send("Not found");
+    await db.run("INSERT INTO resources (title, type, author, tags, link, notes, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [suggestion.title, suggestion.type, suggestion.author, suggestion.tags, suggestion.link, suggestion.notes, suggestion.status]);
+    await db.run("DELETE FROM suggestions WHERE id = ?", [id]);
+    res.redirect("/admin.html");
+});
+
+app.post("/api/suggestions/:id/delete", requireLogin, async (req, res) => {
+    const db = getDB();
+    const { id } = req.params;
+    await db.run("DELETE FROM suggestions WHERE id = ?", [id]);
+    res.redirect("/admin.html");
+});
+
 app.listen(3000, async () => {
     await initDB();
     console.log("HacLib server running on http://localhost:3000");
