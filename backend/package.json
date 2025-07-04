@@ -1,6 +1,7 @@
 {
   "name": "haclib-backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "Backend for HacLib – a hacker-centric digital library",
   "main": "server.js",
   "scripts": {
