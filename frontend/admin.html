@@ -60,5 +60,22 @@
         });
     </script>
     
+    <hr>
+    <section id="pending-suggestions">
+        <h2>Pending Suggestions</h2>
+        <div id="suggestions-container"></div>
+    </section>
+    
+    <script>
+        async function loadSuggestions() {
+            const res = await fetch("/api/suggestions");
+            const suggestions = await res.json();
+            const container = document.getElementById("suggestions-container");
+
+            container.innerHTML = suggestions.map(s => `<div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;"> <strong>${s.title}</strong> by ${s.author} <br> <small>Type: ${s.type} | Tags: ${s.tags}</small><br> <a href="${s.link}" target="_blank">Link</a><br> <em>${s.notes}</em><br> <form method="POST" action="/api/suggestions/${s.id}/approve" style="display:inline;"><button type="submit">Approve</button></form><form method="POST" action="/api/suggestions/${s.id}/delete" style="display:inline;"><button type="submit">Delete</button></form></div>`).join('');}
+        loadSuggestions();
+    </script>
+
+    
 </body>
 </html>
