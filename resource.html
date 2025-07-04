@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HacLib Resources</title>
+        <link rel="stylesheet" href="/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>        
+    </head>
+    <body>
+        <header>
+            <h1><a href="/">HacLib</a> / Resource</h1>
+        </header>
+        <main id="detail"></main>
+
+        <script>
+            async function loadDetail() {
+                const id = new URLSearchParams(window.location.search).get('id');
+                const res = await fetch('/api/resources');
+                const data = await res.json();
+                const r = data.find(item => item.id == id);
+
+                if (!r) return document.getElementById('detail').innerText='Not found';
+
+                document.title = r.title+'HacLib';
+                document.getElementById('detail').innerHTML = `
+                  <h2>${r.title}</h2>
+                  <p><b>${r.type}</b> by ${r.author || 'Unknown'} • <i>${r.status}</i></p>
+                  <p>Tags: ${r.tags}</p>
+                  <p><a href="${r.link}" target="_blank">View</a></p>
+                  <h3>Notes</h3>
+                  <div class="notes">${marked.parse(r.notes || '')}</div>`;
+            }
+            loadDetail();
+        </script>
+    </body>
+</html>

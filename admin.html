@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HacLib Admin</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>Admin</h1>
+    <form method="POST" action="/api/resources">
+        <input name="title" placeholder="Title" required>
+        <input name="type" placeholder="Type (book, video, audio etc)">
+        <input name="author" placeholder="Author">
+        <input name="tags" placeholder="Tags (comma-seperated please)">
+        <input name="link" placeholder="Link">
+        <textarea name="notes" placeholder="Notes (Markdown supported)"></textarea>
+        <select name="status">
+            <option value="reading">Reading Now</option>
+            <option value="done">Have Read</option>
+            <option value="wishlist">Wishlist</option>
+        </select>
+        <button type="submit">Add</button>
+    </form>
+
+    <form method="POST" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+
+    <div class="summary" id="summary"></div>
+    <div id="list"></div>
+    <script>
+        fetch('/api/resources')
+        .then(res => res.json())
+        .then(data => {
+            const summary = {
+                total: data.length,
+                reading: 0,
+                done: 0,
+                wishlist: 0
+            };
+            data.forEach(r => summary[r.status]++);
+            const sumDiv = document.getElementById('summary');
+            sumDiv.innerHTML = `
+              <h3>Dashboard Summary</h3>
+              <ul>
+                <li>Total Resources: ${summary.total}</li>
+                <li>Reading: ${summary.reading}</li>
+                <li>Done: ${summary.done}</li>
+                <li>Wishlist: ${summary.wishlist}</li>
+              </ul>`;
+
+            const list = document.getElementById('list');
+            data.forEach(r => {
+                const div = document.createElement('div');
+                div.className = 'card';
+                div.innerHTML=`<h2><a href="/resources.html?id=${r.id}">${r.title}</a></h2>
+                  <p>${r.type} by ${r.author}</p>
+                  <form method='POST' action='/api/resources/${r.id}/delete'><button>Delete</button></form>`;
+                list.appendChild(div);
+            });
+        });
+    </script>
+    
+</body>
+</html>

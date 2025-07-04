@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HacLib Wishlist</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <header>
+            <h1>Wishlist</h1>
+            <nav>
+                <a href="/">Home</a>
+            </nav>
+        </header>
+        <main id="wishlist"></main>
+
+        <script>
+            async function loadWishlist() {
+                const res= await fetch('/api/resources');
+                const data= await res.json();
+                const list= document.getElementById('wishlist');
+
+                const filtered = data.filter(r => r.status === 'wishlist');
+                filtered.forEach(r => {
+                    const card = document.createElement('div');
+                    card.className='card';
+                    card.innerHTML=`
+                      <h2><a href="/resource.html?id=${r.id}">${r.title}</a></h2>
+                      <p><b>${r.type}</b>${r.author || 'Unknown'}</p>
+                      <p><i>${r.status}</i></p>
+                      <p class="tags">${r.tags}</p>
+                      <a href="${r.link}" target="_blank">View</a>`;
+                    list.appendChild(card);
+                });
+                }
+                loadWishlist(); 
+        </script>
+    </body>
+</html>

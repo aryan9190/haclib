@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HacLib</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>HacLib</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/wishlist.html">Wishlist</a>
+        </nav>
+    </header>
+
+    <div class="filter-bar">
+        <input id="search" placeholder="Search...">
+        <select id="status-filter">
+            <option value="">All</option>
+            <option value="reading">Reading Now</option>
+            <option value="done">Have Read</option>
+            <option value="wishlist">Wishlist</option>
+        </select>
+    </div>
+
+    <main id="library"></main>
+    <script>
+        async function loadLibrary() {
+            const res = await fetch('/api/resources');
+            const data = await res.json();
+            const library = document.getElementById('library');
+            const searchInput = document.getElementById('search');
+            const statusFilter = document.getElementById('status-filter');
+
+            function render(items) {
+                library.innerHTML = '';
+                items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className='card';
+                    card.innerHTML=`
+                      <h2><a href="/resource.html?id=${item.id}">${item.title}</a></h2>
+                      <p><b>${item.type}</b> by ${item.author || 'Unknown'}</p>
+                      <p><i>${item.status}</i></p>
+                      <p>${item.tags}</p>
+                      <a href="${item.link}" target="_blank">View</a>`;
+                    library.appendChild(card);
+
+                if (item.tags) {
+                    const tagList=item.tags.split(',').map(tag => tag.trim());
+                    const tagSpan=document.createElement('p');
+                    tagList.forEach(tag => {
+                        const tagBtn=document.createElement('button');
+                        tagBtn.className='tag';
+                        tagBtn.innerText=tag;
+                        tagBtn.onclick=() => {
+                            searchInput.value=tag;
+                            searchInput.dispatchEvent(new Event('input'));
+                        };
+                        tagSpan.appendChild(tagBtn);
+                    });
+                    card.appendChild(tagSpan);
+                }
+                });
+            }
+
+            function filter() {
+                const search = searchInput.value.toLowerCase();
+                const status = statusFilter.value;
+                const filtered = data.filter(item => 
+                    (!status || item.status === status) &&
+                    (item.title.toLowerCase().includes(search) || item.tags.toLowerCase().includes(search))
+                );
+                render(filtered);
+            }
+
+            searchInput.addEventListener('input', filter);
+            statusFilter.addEventListener('change', filter);
+
+            render(data);
+        }
+        loadLibrary();
+    </script>
+</body>
+</html>
