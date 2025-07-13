@@ -1,6 +1,7 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import { db } from "../models/db.js";
+import { getDB } from "../models/db.js";
+const db = getDB();
 import { v4 as uuid } from "uuid";
 
 const router = express.Router();
