@@ -1,18 +1,18 @@
 {
-  "name": "haclib-backend",
-  "version": "1.0.0",
+  "name": "haclib",
+  "version": "2.0.0",
   "type": "module",
-  "description": "Backend for HacLib – a hacker-centric digital library",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node backend/server.js"
   },
-  "author": "Aryan Yadav",
-  "license": "MIT",
   "dependencies": {
-    "express": "^4.18.4",
+    "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "body-parser": "^1.20.2",
+    "bcrypt": "^5.1.0",
+    "sqlite": "^4.1.2",
     "sqlite3": "^5.1.6",
-    "sqlite": "^4.2.1"
+    "uuid": "^9.0.0"
   }
 }
