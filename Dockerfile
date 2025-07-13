@@ -8,7 +8,8 @@ RUN npm install
 
 COPY backend ./backend
 
-RUN mkdir -p backend/public && cp -r ../frontend/* backend/public/
+COPY frontend ./frontend
+RUN mkdir -p backend/public && cp -r /app/frontend/* /app/backend/public/
 
 ENV PORT=3000
 
