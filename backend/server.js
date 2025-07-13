@@ -4,8 +4,8 @@ import bodyParser from "body-parser";
 import path from "path";
 import {fileURLToPath} from "url";
 import { getDB, initDB } from "./models/db.js";
-import authRoutes from "./auth.js";
-import userResourceRoutes from "./userResources.js";
+import authRoutes from "./routes/auth.js";
+import userResourceRoutes from "./routes/userResources.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
