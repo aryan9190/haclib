@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import path from "path";
 import {fileURLToPath} from "url";
 import { getDB, initDB } from "./models/db.js";
+import authRoutes from "./auth.js";
+import userResourceRoutes from "./userResources.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -86,6 +88,9 @@ app.post("/api/suggestions/:id/delete", requireLogin, async (req, res) => {
     await db.run("DELETE FROM suggestions WHERE id = ?", [id]);
     res.redirect("/admin.html");
 });
+
+app.use("/auth", authRoutes);
+app.use("/api/user/resources", userResourceRoutes);
 
 app.listen(3000, async () => {
     await initDB();
