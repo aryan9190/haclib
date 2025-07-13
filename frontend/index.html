@@ -80,6 +80,18 @@
                     card.appendChild(tagSpan);
                 }
                 });
+
+                const addBtn = document.createElement('button');
+                addBtn.innerText = '❤️ Wishlist';
+                addBtn.onclick = async () => {
+                    await fetch(`/api/user/resources/${item.id}`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ status: 'wishlist' })
+                    });
+                    alert('Added to your wishlist!');
+                };
+                card.appendChild(addBtn);
             }
 
             function filter() {
