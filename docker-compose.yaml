@@ -1,24 +1,9 @@
 version: '3.8'
 
 services:
-  haclib-backend:
+  haclib:
     build: .
     ports:
       - "3000:3000"
-    environment:
-      - DATABASE_URL=postgres://postgres:password@haclib-db:5432/haclib
-    depends_on:
-      - haclib-db
-
-  haclib-db:
-    image: postgres:15
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: haclib
     volumes:
-      - db_data:/var/lib/postgresql/data
-
-volumes:
-  db_data:
+      - ./haclib.db:/app/backend/haclib.db
