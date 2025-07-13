@@ -15,7 +15,7 @@
 
         <script>
             async function loadWishlist() {
-                const res= await fetch('/api/resources');
+                const res = await fetch('/api/user/resources');
                 const data= await res.json();
                 const list= document.getElementById('wishlist');
 
