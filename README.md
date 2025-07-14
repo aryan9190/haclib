@@ -5,7 +5,7 @@
 **Live Demo**: [https://haclib.onrender.com](https://haclib.onrender.com)
 
 ---
-### 🪟 Windows Docker Users — Special Note
+### Windows Docker Users — Special Note
 
 If you're on Windows and see an error like:
 
