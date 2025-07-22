@@ -1,6 +1,5 @@
 import express from "express";
 import { getDB } from "../models/db.js";
-const db = getDB();
 
 const router = express.Router();
 
@@ -10,6 +9,7 @@ router.use((req, res, next) => {
 });
 
 router.get("/", async (req, res) => {
+  const db = getDB();
   const rows = await db.all(
     `SELECT r.*, ur.status FROM user_resources ur
      JOIN resources r ON r.id = ur.resource_id
@@ -19,6 +19,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/:id", async (req, res) => {
+  const db = getDB();
   const { id } = req.params;
   const { status } = req.body;
   await db.run(
@@ -31,6 +32,7 @@ router.post("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
+  const db = getDB();
   const { id } = req.params;
   await db.run("DELETE FROM user_resources WHERE user_id = ? AND resource_id = ?", [req.session.userId, id]);
   res.send("Removed");
