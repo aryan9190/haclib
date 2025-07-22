@@ -1,12 +1,12 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import { getDB } from "../models/db.js";
-const db = getDB();
 import { v4 as uuid } from "uuid";
 
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
+  const db = getDB();
   const { email, password } = req.body;
   const hash = await bcrypt.hash(password, 10);
   const id = uuid();
@@ -20,6 +20,7 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+  const db = getDB();
   const { email, password } = req.body;
   const user = await db.get("SELECT * FROM users WHERE email = ?", [email]);
   if (!user) return res.send("Invalid login");
@@ -30,7 +31,4 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/logout", (req, res) => {
-  req.session.destroy(() => res.redirect("/login.html"));
-});
-
-export default router;
+  req.session.destroy(() => res.
