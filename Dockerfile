@@ -3,6 +3,7 @@ FROM node:20
 WORKDIR /app
 
 COPY backend ./backend
+COPY backend/.env ./backend/.env
 WORKDIR /app/backend
 COPY backend/package*.json ./
 RUN npm install
